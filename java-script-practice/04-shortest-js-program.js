@@ -126,3 +126,35 @@
 // }
 // console.log(window.a); ===  console.log(a); But console.log(window.a) works in browser only!
 
+var a = 10; 
+// 'a' is declared in the global scope.
+// In a browser, global 'var' variables become properties of the window object.
+function b() {
+    console.log("Hello World"); 
+    // This line executes only when function b() is called.
+    var c = 20; 
+    // 'c' is function-scoped (local to function b).
+    // It is NOT accessible outside this function.
+}
+console.log(window.a); 
+// Output: 10
+// Because 'a' is a global variable and is attached to the window object.
+console.log(a); 
+// Output: 10
+// Global variable 'a' can be accessed directly.
+console.log(c); 
+// ❌ ReferenceError: c is not defined
+// Reason: 'c' is declared inside function b().
+// It does NOT exist in the global scope like 'a'.
+console.log(b); 
+// Output: function b() { ... }
+// Functions are first-class objects in JavaScript.
+// Logging a function prints its definition.
+console.log(b()); 
+// Output:
+// Hello World
+// undefined
+// Explanation:
+// 1) b() gets executed, so "Hello World" is printed.
+// 2) b() does not return anything explicitly.
+// 3) By default, JavaScript functions return 'undefined'.
