@@ -70,4 +70,3 @@ No confidential, internal, or proprietary information is included.
 
 **SOMAPURAM UDAY**  
 Systems Engineering & DevOps Practice
-
