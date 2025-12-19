@@ -1,71 +1,122 @@
-// ======================= HOISTING PRACTICE =======================
-//Hoisting is a JavaScript behavior where variables and functions are allocated memory before execution.
-// Variables declared with var get undefined, while function declarations get their complete function definition.
-// Memory allocation happens first, execution happens later.
+/* ======================= HOISTING PRACTICE =======================
 
-// Undefined vs Not Defined
-// undefined  -> variable exists but value is not assigned yet
-// not defined -> variable was never declared
+   Hoisting:
+   - JavaScript allocates memory BEFORE executing code
+   - This happens in the Memory Creation Phase
+   - Execution happens later in the Code Execution Phase
 
-// ---------------------------------------------------------------
-// CASE 1: Accessing variables and functions before declaration
-// ---------------------------------------------------------------
+   Important:
+   - Hoisting is NOT moving code upward
+   - It is about memory allocation before execution
 
-// getName();           // TypeError: getName is not a function
-// console.log(x);      // undefined
-// console.log(getName); // undefined
+================================================================= */
 
-// Reason:
-// - var x is hoisted and initialized as undefined
-// - arrow function is treated like a variable
-// - function body is NOT hoisted for arrow functions
 
-// ---------------------------------------------------------------
-// CASE 2: Variable declaration
-// ---------------------------------------------------------------
+/* ======================= UNDEFINED vs NOT DEFINED =======================
 
+   undefined:
+   - Variable is declared
+   - Memory is allocated
+   - Value not assigned yet
+
+   not defined:
+   - Variable was never declared
+   - Accessing it throws ReferenceError
+
+======================================================================== */
+
+
+/* ---------------------------------------------------------------
+   CASE 1: Accessing BEFORE declaration
+---------------------------------------------------------------- */
+
+/*
+  getName();            ❌ TypeError: getName is not a function
+  console.log(x);       → undefined
+  console.log(getName); → undefined
+
+  WHY?
+  - var x is hoisted and initialized as undefined
+  - var getName is hoisted and initialized as undefined
+  - Arrow functions behave like variables
+  - Function BODY is NOT hoisted for arrow functions
+*/
+
+
+/* ---------------------------------------------------------------
+   CASE 2: Variable declaration
+---------------------------------------------------------------- */
+
+/*
+  Before this line:
+  x exists in memory as undefined
+
+  After execution:
+  x gets the value 7
+*/
 var x = 7;
 
-// Before this line, x exists as undefined
-// After this line, x = 7
 
-// ---------------------------------------------------------------
-// CASE 3: Arrow function (acts like a variable)
-// ---------------------------------------------------------------
+/* ---------------------------------------------------------------
+   CASE 3: Arrow function (NOT fully hoisted)
+---------------------------------------------------------------- */
 
+/*
+  Arrow functions:
+  - Stored in variables
+  - Hoisted as undefined
+  - Cannot be called before initialization
+*/
 var getName = () => {
-    console.log("Hello World");
+  console.log("Hello World");
 };
 
-// Arrow functions are hoisted as undefined
-// They cannot be called before initialization
+/*
+  Now getName points to a function
+*/
+getName();            /* Hello World */
+console.log(x);       /* 7 */
+console.log(getName); /* function reference */
 
-getName();            // Hello World
-console.log(x);       // 7
-console.log(getName); // function reference
 
-// ---------------------------------------------------------------
-// CASE 4: Function declaration (fully hoisted)
-// ---------------------------------------------------------------
+/* ---------------------------------------------------------------
+   CASE 4: Function declaration (FULLY hoisted)
+---------------------------------------------------------------- */
 
-// function sayHello() {
-//     console.log("Hello Uday");
-// }
+/*
+  Function declarations:
+  - Fully hoisted
+  - Memory stores entire function body
+  - Can be called before declaration
+*/
 
-// sayHello();          // Works even if called before definition
-// console.log(sayHello); // Function definition
-
-// ---------------------------------------------------------------
-// KEY TAKEAWAYS
-// ---------------------------------------------------------------
-
-// Hoisting means memory allocation happens before execution
-// var            -> hoisted and initialized as undefined
-// function fn()  -> fully hoisted with its body
-// arrow function -> hoisted as undefined (like a variable)
-
-// If a variable is not declared at all, accessing it causes ReferenceError
-
-var getName = () => {
-    console.log("Hello World");
+function sayHello() {
+  console.log("Hello Uday");
 }
+
+sayHello();           /* Works even if called earlier */
+console.log(sayHello);/* Function definition */
+
+
+/* ======================= KEY TAKEAWAYS =======================
+
+   Hoisting summary:
+   - Hoisting means memory allocation happens before execution;
+   - Only function declarations are fully hoisted
+
+   var:
+   - Hoisted
+   - Initialized as undefined
+
+   function declaration:
+   - Fully hoisted
+   - Body available in memory
+
+   arrow function / function expression:
+   - Hoisted as undefined
+   - Acts like a variable
+
+   Accessing undeclared variable:
+   - ReferenceError
+
+================================================================ */

@@ -1,65 +1,171 @@
-// ===================== JAVASCRIPT EXECUTION OVERVIEW =====================
-// Reference: https://youtu.be/iLWTnMzWtj4?si=fFF4VeravntDw-QF
+/* ===================== JAVASCRIPT EXECUTION OVERVIEW =====================
 
-// JavaScript is a synchronous, single-threaded language.
-// This means it executes one statement at a time, in order.
+   Reference (conceptual): JS Execution Context & Call Stack
 
-// When a JavaScript program runs, an Execution Context (EC) is created.
-// The Execution Context has two main phases and components:
+   Core facts:
+   - JavaScript is synchronous
+   - JavaScript is single-threaded
+   - Executes one statement at a time, in order
 
-// 1) Memory Creation Phase (also called Variable Environment)
-//    - Memory is allocated for variables and functions
-//    - Variables declared with var are initialized as undefined
-//    - Function declarations are stored with their complete code
+   Whenever a JS program runs,
+   an Execution Context (EC) is created.
 
-// 2) Code Execution Phase (also called Thread of Execution)
-//    - JavaScript executes the code line by line
-//    - Values are assigned and functions are invoked
+   There are TWO main phases in an Execution Context:
+   1) Memory Creation Phase
+   2) Code Execution Phase
 
-// JavaScript also uses a Call Stack
-// - Call Stack manages Execution Contexts
-// - Global Execution Context is pushed first
-// - Each function call creates a new Execution Context
-// - After function execution, its context is popped from the stack
+========================================================================= */
 
-// ===================== CODE EXAMPLE =====================
+
+/* ===================== EXECUTION CONTEXT ===================== */
+
+/*
+  1) Memory Creation Phase (Variable Environment)
+     - Memory space is allocated
+     - var variables are initialized as undefined
+     - function declarations are stored fully (code + scope)
+
+  2) Code Execution Phase (Thread of Execution)
+     - JavaScript executes code line by line
+     - Variables get actual values
+     - Functions are invoked
+*/
+
+
+/* ===================== CALL STACK ===================== */
+
+/*
+  Call Stack manages execution contexts.
+
+  Rules:
+  - Global Execution Context (GEC) is created first
+  - GEC is pushed into the Call Stack
+  - Each function call creates a new Execution Context
+  - After function finishes, its EC is popped
+  - Stack follows LIFO (Last In, First Out)
+*/
+
+
+/* ===================== CODE EXAMPLE ===================== */
 
 var n = 2;
 
 function square(num) {
-    var ans = num * num;
-    return ans;
+  var ans = num * num;
+  return ans;
 }
 
-var secondsquare = square(n);
-var foursquare = square(4);
+var secondSquare = square(n);
+var fourthSquare = square(4);
 
-console.log(secondsquare);
-console.log(foursquare);
+console.log(secondSquare);
+console.log(fourthSquare);
 
-// ===================== EXECUTION FLOW =====================
 
-// 1) Global Execution Context is created
-//    Memory Phase:
-//    n -> undefined
-//    square -> function definition
-//    secondsquare -> undefined
-//    foursquare -> undefined
+/* ===================== STEP-BY-STEP EXECUTION FLOW ===================== */
 
-// 2) Code Execution Phase:
-//    n = 2
-//    square(n) is called -> new Execution Context created
-//      num = 2
-//      ans = 4
-//      return 4
-//    secondsquare = 4
+/*
+  STEP 1: Global Execution Context (GEC) is created
+  ------------------------------------------------
 
-//    square(4) is called -> new Execution Context created
-//      num = 4
-//      ans = 16
-//      return 16
-//    foursquare = 16
+  Memory Creation Phase:
+  ----------------------
+  n              -> undefined
+  square         -> function definition
+  secondSquare   -> undefined
+  fourthSquare   -> undefined
 
-// 3) console.log prints:
-//    4
-//    16
+  (No code executed yet, only memory allocated)
+*/
+
+
+/*
+  STEP 2: Code Execution Phase (Global)
+  ------------------------------------
+
+  Line 1:
+  n = 2
+
+  Line 2:
+  square function already exists in memory
+
+  Line 3:
+  square(n) is called
+*/
+
+
+/*
+  STEP 3: Function Execution Context (square)
+  -------------------------------------------
+
+  A new Execution Context for square() is created
+  and pushed onto the Call Stack
+
+  Memory Creation Phase (square EC):
+  ---------------------------------
+  num -> undefined
+  ans -> undefined
+
+  Code Execution Phase (square EC):
+  --------------------------------
+  num = 2
+  ans = 2 * 2 -> 4
+  return 4
+
+  square EC is popped from the Call Stack
+*/
+
+secondSquare = 4;
+
+
+/*
+  STEP 4: square(4) is called
+  --------------------------
+
+  New Execution Context for square() is created
+
+  Memory Creation Phase:
+  ----------------------
+  num -> undefined
+  ans -> undefined
+
+  Code Execution Phase:
+  ---------------------
+  num = 4
+  ans = 4 * 4 -> 16
+  return 16
+
+  square EC is popped
+*/
+
+fourthSquare = 16;
+
+
+/*
+  STEP 5: console.log execution
+  -----------------------------
+
+  console.log(secondSquare) -> 4
+  console.log(fourthSquare) -> 16
+*/
+
+
+/* ===================== FINAL OUTPUT ===================== */
+
+/*
+  Output:
+  4
+  16
+*/
+
+
+/* ===================== KEY INTERVIEW TAKEAWAYS ===================== */
+
+/*
+  - JavaScript runs code using Execution Contexts
+  - Memory phase happens BEFORE execution
+  - var is initialized as undefined during memory phase
+  - Functions are fully hoisted
+  - Call Stack controls order of execution
+  - JS is single-threaded but can handle async via Web APIs
+*/
